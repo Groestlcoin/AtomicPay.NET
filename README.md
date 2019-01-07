@@ -61,14 +61,14 @@ using (var client = new AtomicPayClient())
 ```
 
 #### Billing ([API docs](https://atomicpay.io/api/en#resource-Billing))
-Get all bills (returns [BillingList](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/BillingList.cs)<[BillInfoShort](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/BillInfoShort.cs)>):
+Get all bills (returns [BillingList](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/BillingList.cs)<[BillInfo](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/BillInfo.cs)>):
 ```
 using (var client = new AtomicPayClient())
 {
    var bills = await client.GetBillsAsync();
 }
 ```
-Get specific bill (returns [BillingList](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/BillingList.cs)<[BillInfoFull](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/BillinfoFull.cs)>, single entry):
+Get specific bill (returns [BillingList](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/BillingList.cs)<[BillInfoDetails](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/BillinfoDetails.cs)>, single entry):
 ```
 using (var client = new AtomicPayClient())
 {
@@ -93,7 +93,7 @@ using (var client = new AtomicPayClient())
 ```
 
 #### Invoices ([API docs](https://atomicpay.io/api/en#resource-Invoices))
-Get Invoices, filtered by time frame and status (returns [InvoicesList](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/InvoicesList.cs)<[InvoiceInfoShort](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/InvoiceInfoShort.cs)>)
+Get Invoices, filtered by time frame and status (returns [InvoicesList](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/InvoicesList.cs)<[InvoiceInfo](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/InvoiceInfo.cs)>)
 ```
 using (var client = new AtomicPayClient())
 {
@@ -104,7 +104,7 @@ using (var client = new AtomicPayClient())
 }
 ```
 
-Get specifc invoice by id (returns [InvoicesList](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/InvoicesList.cs)<[InvoiceInfoFull](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/InvoiceInfoFull.cs)>)
+Get specifc invoice by id (returns [InvoicesList](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/InvoicesList.cs)<[InvoiceInfoDetails](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/InvoiceInfoDetails.cs)>)
 ```
 using (var client = new AtomicPayClient())
 {
@@ -131,7 +131,7 @@ using (var client = new AtomicPayClient())
 ```
 
 #### PayUrl ([API docs](https://atomicpay.io/api/en#resource-PayUrl))
-Get all PayUrls, optionally filtered by status (returns [PayUrlList](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/PayUrlList.cs)<[PayUrlInfoShort](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/PayUrlInfoShort.cs)>)
+Get all PayUrls, optionally filtered by status (returns [PayUrlList](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/PayUrlList.cs)<[PayUrlInfo](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/PayUrlInfo.cs)>)
 ```
 using (var client = new AtomicPayClient())
 {
@@ -139,7 +139,44 @@ using (var client = new AtomicPayClient())
 }
 ```
 
-Get specific PayUrl by Id (returns [PayUrlList](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/PayUrlList.cs)<[PayUrlInfoFull](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/PayUrlInfoFull.cs)>
+Get specific PayUrl by Id (returns [PayUrlList](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/PayUrlList.cs)<[PayUrlInfoDetails](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/PayUrlInfoDetails.cs)>, single entry)
+```
+using (var client = new AtomicPayClient())
+{
+   var payUrlFull = await client.GetPayUrlByIdAsync("x123c34");
+}
+```
+
+Create new PayUrl (takes [PayUrlCreationInfo](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/PayUrlCreationInfo.cs), returns [UpdatedPayUrlInfo](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/UpdatedPayUrlInfo.cs))
+```
+using (var client = new AtomicPayClient())
+{
+    var payUrlCreationInfo = new PayUrlCreationInfo("new payurl", "USD", TransactionSpeed.Low, PayUrlExpiry.ThirdyDays, DateTime.Now.Ticks, (decimal)1.49, "this is a new payurl", null, null, null);
+    var request = new AtomicPayRequest<PayUrlUpdateInfo>(payUrlCreationInfo);
+
+    var newPayUrl = await client.CreatePayUrlAsync(request);
+}
+```
+
+Update PayUrl (takes [PayUrlUpdateInfo](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/PayUrlUpdateInfo.cs), returns [UpdatedPayUrlInfo](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/UpdatedPayUrlInfo.cs))
+```
+using (var client = new AtomicPayClient())
+{
+    var payUrlUpdateInfo = new PayUrlUpdateInfo("updated payurl", "USD", TransactionSpeed.Low, PayUrlExpiry.ThirdyDays, DateTime.Now.Ticks, (decimal)1.49, "this is an updated pay url", null, null, null);
+    var request = new AtomicPayRequest<PayUrlUpdateInfo>(payUrlCreationInfo);
+
+    var updatedPayUrl = await client.UpdatePayUrlAsync("x123c34", request);
+}
+```
+
+Delete PayUrl (returns [PayUrlStatusInfo](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/PayUrlStatusInfo.cs))
+```
+using (var client = new AtomicPayClient())
+{
+    var deleted = await _client.DeletePayUrlAsync("x123c34");
+}
+```
+
 
 #### Rates ([API docs](https://atomicpay.io/api/en#resource-Rates))
 Get real time exchange rates for supported currencies [returns [RateInfoList](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/RateInfoList.cs)<[RateInfo](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/RateInfo.cs)>):
