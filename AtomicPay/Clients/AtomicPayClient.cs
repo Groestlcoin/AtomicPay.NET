@@ -18,6 +18,13 @@ namespace AtomicPay
         private readonly string _apiVersion;
         private readonly bool _throwErrofIfnotAuthenticated;
 
+        /// <summary>
+        /// Creates a new AtomicPayClient
+        /// </summary>
+        /// <param name="apiVersion">desired version of the API</param>
+        /// <param name="userAgent">optional value for the user agent header</param>
+        /// <param name="version">version value for optional user agent header</param>
+        /// <param name="throwErrofIfnotAuthenticated">defaults to true, every unauthenticated API call will throw an exception</param>
         public AtomicPayClient(string apiVersion = "v1", string userAgent = null, string version = null, bool throwErrofIfnotAuthenticated = true)
         {
             _client = GetClient(null, userAgent, version);
@@ -40,6 +47,13 @@ namespace AtomicPay
         }
 
         #region authorization
+        /// <summary>
+        /// Validate the API Keys
+        /// </summary>
+        /// <param name="accountId">AtomicPay Account Id</param>
+        /// <param name="publicKey">AtomicPay Account PublicKey</param>
+        /// <param name="privateKey">AtomicPay Account PrivateKey</param>
+        /// <returns>authorization result - automatically used for every new instance of AtomicPayClient</returns>
         public async Task<AtomicPayResponse<AuthResult>> AuthorizeAsync(string accountId, string publicKey, string privateKey)
         {
             var authParams = new Dictionary<string, string>
@@ -63,6 +77,10 @@ namespace AtomicPay
         #endregion
 
         #region account
+        /// <summary>
+        /// Get the current authenticated account
+        /// </summary>
+        /// <returns>AtomicPayResponse with AccountInfo, if successful</returns>
         public async Task<AtomicPayResponse<AccountInfo>> GetAccountAsync()
         {
             VerifyAuthentication();
@@ -79,6 +97,11 @@ namespace AtomicPay
 
         }
 
+        /// <summary>
+        /// Updates the current authenticated account
+        /// </summary>
+        /// <param name="accountInfo">AtomicPayRequest with updated account values</param>
+        /// <returns>AtomicPayResponse with updated AccountInfo, if successful</returns>
         public async Task<AtomicPayResponse<AccountInfo>> UpdateAccountAsync(AtomicPayRequest<AccountUpdateInfo> accountInfo)
         {
             VerifyAuthentication();
@@ -97,7 +120,11 @@ namespace AtomicPay
         #endregion
 
         #region billing
-        public async Task<AtomicPayResponse<BillingList<BillInfoShort>>> GetBillsAsync(string accountId, string privateKey)
+        /// <summary>
+        /// Get a list of recent bills
+        /// </summary>
+        /// <returns>List of BillInfo (short)</returns>
+        public async Task<AtomicPayResponse<BillingList<BillInfoShort>>> GetBillsAsync()
         {
             VerifyAuthentication();
 
@@ -112,7 +139,12 @@ namespace AtomicPay
             return new AtomicPayResponse<BillingList<BillInfoShort>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToBillingStatusConverter.Instance });
         }
 
-        public async Task<AtomicPayResponse<BillingList<BillinfoFull>>> GetBillAsync(string billId)
+        /// <summary>
+        /// Gets details about a bill by Id
+        /// </summary>
+        /// <param name="billId">desired Bill Id</param>
+        /// <returns>Full information about the requested bill</returns>
+        public async Task<AtomicPayResponse<BillingList<BillinfoFull>>> GetBillByIdAsync(string billId)
         {
             VerifyAuthentication();
 
@@ -129,7 +161,11 @@ namespace AtomicPay
         #endregion
 
         #region currencies
-        public async Task<AtomicPayResponse<Currencies>> GetCurrenciesAsync(string accountId, string privateKey)
+        /// <summary>
+        /// Get FIAT currencies supported by AtomicPay 
+        /// </summary>
+        /// <returns>List of all supported FIAT currencies</returns>
+        public async Task<AtomicPayResponse<Currencies>> GetCurrenciesAsync()
         {
             VerifyAuthentication();
 
@@ -144,7 +180,12 @@ namespace AtomicPay
             return new AtomicPayResponse<Currencies> (response, false, null);
         }
 
-        public async Task<AtomicPayResponse<Currencies>> GetCurrencyByNameAsync(string currency, string accountId, string privateKey)
+        /// <summary>
+        /// Get details of specified FIAT currency
+        /// </summary>
+        /// <param name="currency">ISO 4217 3-character currency code</param>
+        /// <returns>details of specified FIAT currency</returns>
+        public async Task<AtomicPayResponse<Currencies>> GetCurrencyByNameAsync(string currency)
         {
             VerifyAuthentication();
 
@@ -162,6 +203,13 @@ namespace AtomicPay
         #endregion
 
         #region invoices
+        /// <summary>
+        /// Get a list of invoices, filtered by time frame and status
+        /// </summary>
+        /// <param name="startDate">start date of the time frame</param>
+        /// <param name="endDate">end date of the time frame</param>
+        /// <param name="invoiceStatus">status of the invoices to fetch</param>
+        /// <returns>List of invoices, filtered by time frame and status</returns>
         public async Task<AtomicPayResponse<InvoicesList<InvoiceInfoShort>>> GetInvoicesAsync(DateTimeOffset startDate, DateTimeOffset endDate, InvoiceStatus invoiceStatus = InvoiceStatus.All)
         {
             VerifyAuthentication();
@@ -180,6 +228,11 @@ namespace AtomicPay
             return new AtomicPayResponse<InvoicesList<InvoiceInfoShort>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToInvoiceStatusConverter.Instance });
         }
 
+        /// <summary>
+        /// Get details of the specified invoice
+        /// </summary>
+        /// <param name="invoiceId">id of invoice</param>
+        /// <returns>Full invoice information of specified invoice</returns>
         public async Task<AtomicPayResponse<InvoicesList<InvoiceInfoFull>>> GetInvoiceByIdAsync(string invoiceId)
         {
             VerifyAuthentication();
@@ -195,6 +248,11 @@ namespace AtomicPay
             return new AtomicPayResponse<InvoicesList<InvoiceInfoFull>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToBillingStatusConverter.Instance, StringToPaymentTypeConverter.Instance });
         }
 
+        /// <summary>
+        /// Create a new invoice
+        /// </summary>
+        /// <param name="newInvoiceRequest">AtomicPayRequest for new invoice</param>
+        /// <returns>New Invoice Id & Url</returns>
         public async Task<AtomicPayResponse<NewInvoiceInfo>> CreateInvoiceAsync(AtomicPayRequest<InvoiceCreationInfo> newInvoiceRequest)
         {
             VerifyAuthentication();
@@ -210,10 +268,14 @@ namespace AtomicPay
 
             return new AtomicPayResponse<NewInvoiceInfo> (response, false, new List<Newtonsoft.Json.JsonConverter> { StringToTransactionSpeedConverter.Instance });
         }
-
         #endregion
 
         #region payurl
+        /// <summary>
+        /// Get a list of PayUrls, filtered by status
+        /// </summary>
+        /// <param name="status">PayUrlStatus to filter</param>
+        /// <returns>List of PayUrls, filtered by status</returns>
         public async Task<AtomicPayResponse<PayUrlList<PayUrlInfoShort>>> GetPayUrlsAsync(PayUrlStatus status = PayUrlStatus.All)
         {
             VerifyAuthentication();
@@ -233,6 +295,11 @@ namespace AtomicPay
             return new AtomicPayResponse<PayUrlList<PayUrlInfoShort>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance});
         }
 
+        /// <summary>
+        /// Get details of specified PayUrl
+        /// </summary>
+        /// <param name="payUrlId">desired PayUrl Id</param>
+        /// <returns>Full information of the specified PayUrl</returns>
         public async Task<AtomicPayResponse<PayUrlList<PayUrlInfoFull>>> GetPayUrlByIdAsync(string payUrlId)
         {
             VerifyAuthentication();
@@ -248,6 +315,11 @@ namespace AtomicPay
             return new AtomicPayResponse<PayUrlList<PayUrlInfoFull>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance });
         }
 
+        /// <summary>
+        /// Create a new PayUrl
+        /// </summary>
+        /// <param name="newPayUrlRequest">AtomicPayRequest with new PayUrl information</param>
+        /// <returns>Full information of the created PayUrl</returns>
         public async Task<AtomicPayResponse<NewOrUpdatedPayUrlInfo>> CreatePayUrlAsync(AtomicPayRequest<PayUrlCreationOrUpdateInfo> newPayUrlRequest)
         {
             VerifyAuthentication();
@@ -264,6 +336,11 @@ namespace AtomicPay
             return new AtomicPayResponse<NewOrUpdatedPayUrlInfo>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance });
         }
 
+        /// <summary>
+        /// Update existing PayUrl
+        /// </summary>
+        /// <param name="updateUrlRequest">AtomicPayRequest with updated PayUrl information</param>
+        /// <returns>Full information of the updated PayUrl</returns>
         public async Task<AtomicPayResponse<NewOrUpdatedPayUrlInfo>> UpdatePayUrlAsync(string urlId, AtomicPayRequest<PayUrlCreationOrUpdateInfo> updateUrlRequest)
         {
             VerifyAuthentication();
@@ -280,6 +357,11 @@ namespace AtomicPay
             return new AtomicPayResponse<NewOrUpdatedPayUrlInfo>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance });
         }
 
+        /// <summary>
+        /// Delete an existing PayUrl
+        /// </summary>
+        /// <param name="urlId">Id of PayUrl to delete</param>
+        /// <returns>Success information of deletion request</returns>
         public async Task<AtomicPayResponse<PayUrlDeletionInfo>> DeletePayUrlAsync(string urlId)
         {
             VerifyAuthentication();
@@ -299,6 +381,11 @@ namespace AtomicPay
         #endregion
 
         #region rates
+        /// <summary>
+        /// Get a list of exchange rates between a FIAT base currency and current authenticated account's supported cryptocurrencies
+        /// </summary>
+        /// <param name="baseCurrency">ISO 4217 3-character currency code</param>
+        /// <returns>list of exchange rates for current authenticated account's supported cryptocurrencies</returns>
         public async Task<AtomicPayResponse<RateInfoList>> GetRatesForCurrencyAsync(string baseCurrency)
         {
             VerifyAuthentication();
@@ -316,6 +403,13 @@ namespace AtomicPay
         #endregion
 
         #region transactions
+        /// <summary>
+        /// Get a list of transaction for current authenticated account, filtered by timeframe and status
+        /// </summary>
+        /// <param name="startDate">start date of the time frame</param>
+        /// <param name="endDate">end date of the time frame</param>
+        /// <param name="transactionStatus">status of the transaction to fetch</param>
+        /// <returns>List of transaction for current authenticated account, filtered by timeframe and status</returns>
         public async Task<AtomicPayResponse<TransactionList>> GetTransactionsAsync(DateTimeOffset startDate, DateTimeOffset endDate, TransactionStatus transactionStatus = TransactionStatus.All)
         {
             VerifyAuthentication();

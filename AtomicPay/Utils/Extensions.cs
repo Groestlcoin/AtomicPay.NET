@@ -7,12 +7,14 @@ namespace AtomicPay.Utils
 {
     public static class Extensions
     {
-        public static string GetJsonDataBody(this Dictionary<string, string> parameters)
-        {
-            return JsonConvert.SerializeObject(parameters);
-        }
-
-        public static string AddParameterToUrl(this string url, string parameterName, object parameterValue)
+        /// <summary>
+        /// add a parameter to an url string
+        /// </summary>
+        /// <param name="url">url string</param>
+        /// <param name="parameterName">name of parameter to add</param>
+        /// <param name="parameterValue">value of parameter to add</param>
+        /// <returns></returns>
+        internal static string AddParameterToUrl(this string url, string parameterName, object parameterValue)
         {
             if (url.Contains("?"))
             {

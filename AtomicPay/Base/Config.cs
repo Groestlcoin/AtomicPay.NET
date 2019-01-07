@@ -9,8 +9,18 @@ namespace AtomicPay
     {
         private static Config _instance;
 
+        /// <summary>
+        /// current instance of AtomicPay configuration
+        /// </summary>
         public static Config Current => _instance ?? (_instance = new Config());
 
+        /// <summary>
+        /// initializes the current Config instance and validates the API keys
+        /// </summary>
+        /// <param name="id">AtomicPay Account Id</param>
+        /// <param name="publicKey">AtomicPay Account PublicKey</param>
+        /// <param name="privateKey">AtomicPay Account PrivateKey</param>
+        /// <param name="throwErrorIfInvalid">if set to true, will throw an exception on invalid API keys</param>
         public async Task Init(string id, string publicKey, string privateKey, bool throwErrorIfInvalid = false)
         {
             this.Id = id;

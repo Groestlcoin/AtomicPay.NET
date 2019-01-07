@@ -10,7 +10,14 @@ namespace AtomicPay.Base
     {
         private static HttpClient _httpClientInstance;
 
-        internal static HttpClient GetClient(DateTime? modifiedSince = null, string userAgent = null, string version = null)
+        /// <summary>
+        /// static base implementation of configured HttpClient
+        /// </summary>
+        /// <param name="modifiedSince">value for if-modified=since header</param>
+        /// <param name="userAgent">value for user agent header</param>
+        /// <param name="version">value for version in user agent header</param>
+        /// <param name="allowCaching">value to control caching behavior</param>
+        internal static HttpClient GetClient(DateTime? modifiedSince = null, string userAgent = null, string version = null, bool allowCaching = false)
         {
             if (_httpClientInstance == null)
             {
@@ -27,7 +34,7 @@ namespace AtomicPay.Base
                     _httpClientInstance.DefaultRequestHeaders.IfModifiedSince = new DateTimeOffset(modifiedSince.Value);
                 }
 
-                _httpClientInstance.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue() { NoCache = false };
+                _httpClientInstance.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue() { NoCache = allowCaching };
                 _httpClientInstance.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 _httpClientInstance.DefaultRequestHeaders.AcceptCharset.Add(new StringWithQualityHeaderValue("UTF-8"));
 

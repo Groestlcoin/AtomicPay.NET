@@ -10,6 +10,10 @@ using System.Text;
 
 namespace AtomicPay.Model
 {
+    /// <summary>
+    /// Wrapper around the response of the API
+    /// </summary>
+    /// <typeparam name="TAtomicPayEntity">Entity Type of the response</typeparam>
     public class AtomicPayResponse<TAtomicPayEntity> where TAtomicPayEntity : EntityBase
     {
         private JsonSerializerSettings _jsonSerializerSettings;
