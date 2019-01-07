@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AtomicPay.Entity
 {
-    public class InvoiceInfoShort : EntityBase
+    public class InvoiceInfo : EntityBase
     {
         [JsonProperty("invoice_timestamp")]
         [JsonConverter(typeof(StringToDateTimeOffsetConverter))]

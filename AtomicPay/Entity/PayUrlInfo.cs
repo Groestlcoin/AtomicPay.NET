@@ -4,7 +4,7 @@ using System;
 
 namespace AtomicPay.Entity
 {
-    public class PayUrlInfoShort
+    public class PayUrlInfo
     {
         [JsonProperty("url_timestamp")]
         [JsonConverter(typeof(StringToDateTimeOffsetConverter))]

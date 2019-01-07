@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AtomicPay.Entity
 {
-    public class InvoicesList<TInvoiceEntity> : EntityBase where TInvoiceEntity : InvoiceInfoShort
+    public class InvoicesList<TInvoiceEntity> : EntityBase where TInvoiceEntity : InvoiceInfo
     {
         [JsonProperty("count", NullValueHandling = NullValueHandling.Ignore)]
         public long? Count { get; set; }

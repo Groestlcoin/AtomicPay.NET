@@ -6,22 +6,8 @@ using System.Text;
 
 namespace AtomicPay.Entity
 {
-    public class NewOrUpdatedPayUrlInfo : EntityBase
+    public class PayUrlInfoDetails : PayUrlInfo
     {
-        [JsonProperty("url_timestamp")]
-        [JsonConverter(typeof(StringToDateTimeOffsetConverter))]
-        public DateTimeOffset UrlTimestamp { get; set; }
-
-        [JsonProperty("url_name")]
-        public string UrlName { get; set; }
-
-        [JsonProperty("url_id")]
-        public string UrlId { get; set; }
-
-        [JsonProperty("url_status")]
-        [JsonConverter(typeof(StringToPayUrlStatusConverter))]
-        public PayUrlStatus Status { get; set; }
-
         [JsonProperty("url_expiry")]
         [JsonConverter(typeof(StringToPayUrlExpiryConverter))]
         public PayUrlExpiry UrlExpiry { get; set; }

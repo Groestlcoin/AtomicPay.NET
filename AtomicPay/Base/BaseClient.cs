@@ -51,7 +51,7 @@ namespace AtomicPay.Base
             return _httpClientInstance;
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             _httpClientInstance = null;
         }

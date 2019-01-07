@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AtomicPay.Entity
 {
-    public class PayUrlDeletionInfo : EntityBase
+    public class PayUrlStatusInfo : EntityBase
     {
         [JsonProperty("url_id")]
         public string UrlId { get; set; }

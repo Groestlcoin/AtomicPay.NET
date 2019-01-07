@@ -6,9 +6,9 @@ using System.Text;
 
 namespace AtomicPay.Entity
 {
-    public class PayUrlCreationOrUpdateInfo
+    public class PayUrlUpdateInfo
     {
-        public PayUrlCreationOrUpdateInfo(string name, string currency, TransactionSpeed transactionSpeed = TransactionSpeed.Medium, PayUrlExpiry urlExpiry = PayUrlExpiry.None, long? orderId = null, decimal? orderprice = null, string description = null, string notificationemail = null, string notificationUrl = null, string redirecturl = null)
+        public PayUrlUpdateInfo(string name, string currency, TransactionSpeed transactionSpeed = TransactionSpeed.Medium, PayUrlExpiry urlExpiry = PayUrlExpiry.None, long? orderId = null, decimal? orderprice = null, string description = null, string notificationemail = null, string notificationUrl = null, string redirecturl = null)
         {
             this.UrlName = name;
             this.OrderCurrency = currency;

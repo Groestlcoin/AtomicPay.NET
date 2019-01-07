@@ -46,6 +46,7 @@ namespace AtomicPay
             }
         }
 
+
         #region authorization
         /// <summary>
         /// Validate the API Keys
@@ -124,7 +125,7 @@ namespace AtomicPay
         /// Get a list of recent bills
         /// </summary>
         /// <returns>List of BillInfo (short)</returns>
-        public async Task<AtomicPayResponse<BillingList<BillInfoShort>>> GetBillsAsync()
+        public async Task<AtomicPayResponse<BillingList<BillInfo>>> GetBillsAsync()
         {
             VerifyAuthentication();
 
@@ -136,7 +137,7 @@ namespace AtomicPay
 
             var response = await _client.SendAsync(request).ConfigureAwait(false);
 
-            return new AtomicPayResponse<BillingList<BillInfoShort>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToBillingStatusConverter.Instance });
+            return new AtomicPayResponse<BillingList<BillInfo>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToBillingStatusConverter.Instance });
         }
 
         /// <summary>
@@ -144,7 +145,7 @@ namespace AtomicPay
         /// </summary>
         /// <param name="billId">desired Bill Id</param>
         /// <returns>Full information about the requested bill</returns>
-        public async Task<AtomicPayResponse<BillingList<BillinfoFull>>> GetBillByIdAsync(string billId)
+        public async Task<AtomicPayResponse<BillingList<BillinfoDetails>>> GetBillByIdAsync(string billId)
         {
             VerifyAuthentication();
 
@@ -156,7 +157,7 @@ namespace AtomicPay
 
             var response = await _client.SendAsync(request).ConfigureAwait(false);
 
-            return new AtomicPayResponse<BillingList<BillinfoFull>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToBillingStatusConverter.Instance, StringToPaymentTypeConverter.Instance });
+            return new AtomicPayResponse<BillingList<BillinfoDetails>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToBillingStatusConverter.Instance, StringToPaymentTypeConverter.Instance });
         }
         #endregion
 
@@ -210,7 +211,7 @@ namespace AtomicPay
         /// <param name="endDate">end date of the time frame</param>
         /// <param name="invoiceStatus">status of the invoices to fetch</param>
         /// <returns>List of invoices, filtered by time frame and status</returns>
-        public async Task<AtomicPayResponse<InvoicesList<InvoiceInfoShort>>> GetInvoicesAsync(DateTimeOffset startDate, DateTimeOffset endDate, InvoiceStatus invoiceStatus = InvoiceStatus.All)
+        public async Task<AtomicPayResponse<InvoicesList<InvoiceInfo>>> GetInvoicesAsync(DateTimeOffset startDate, DateTimeOffset endDate, InvoiceStatus invoiceStatus = InvoiceStatus.All)
         {
             VerifyAuthentication();
 
@@ -225,7 +226,7 @@ namespace AtomicPay
 
             var response = await _client.SendAsync(request).ConfigureAwait(false);
 
-            return new AtomicPayResponse<InvoicesList<InvoiceInfoShort>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToInvoiceStatusConverter.Instance });
+            return new AtomicPayResponse<InvoicesList<InvoiceInfo>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToInvoiceStatusConverter.Instance });
         }
 
         /// <summary>
@@ -233,7 +234,7 @@ namespace AtomicPay
         /// </summary>
         /// <param name="invoiceId">id of invoice</param>
         /// <returns>Full invoice information of specified invoice</returns>
-        public async Task<AtomicPayResponse<InvoicesList<InvoiceInfoFull>>> GetInvoiceByIdAsync(string invoiceId)
+        public async Task<AtomicPayResponse<InvoicesList<InvoiceInfoDetails>>> GetInvoiceByIdAsync(string invoiceId)
         {
             VerifyAuthentication();
 
@@ -245,7 +246,7 @@ namespace AtomicPay
 
             var response = await _client.SendAsync(request).ConfigureAwait(false);
 
-            return new AtomicPayResponse<InvoicesList<InvoiceInfoFull>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToBillingStatusConverter.Instance, StringToPaymentTypeConverter.Instance });
+            return new AtomicPayResponse<InvoicesList<InvoiceInfoDetails>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToBillingStatusConverter.Instance, StringToPaymentTypeConverter.Instance });
         }
 
         /// <summary>
@@ -276,7 +277,7 @@ namespace AtomicPay
         /// </summary>
         /// <param name="status">PayUrlStatus to filter</param>
         /// <returns>List of PayUrls, filtered by status</returns>
-        public async Task<AtomicPayResponse<PayUrlList<PayUrlInfoShort>>> GetPayUrlsAsync(PayUrlStatus status = PayUrlStatus.All)
+        public async Task<AtomicPayResponse<PayUrlList<PayUrlInfo>>> GetPayUrlsAsync(PayUrlStatus status = PayUrlStatus.All)
         {
             VerifyAuthentication();
 
@@ -292,7 +293,7 @@ namespace AtomicPay
 
             var response = await _client.SendAsync(request).ConfigureAwait(false);
 
-            return new AtomicPayResponse<PayUrlList<PayUrlInfoShort>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance});
+            return new AtomicPayResponse<PayUrlList<PayUrlInfo>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance});
         }
 
         /// <summary>
@@ -300,7 +301,7 @@ namespace AtomicPay
         /// </summary>
         /// <param name="payUrlId">desired PayUrl Id</param>
         /// <returns>Full information of the specified PayUrl</returns>
-        public async Task<AtomicPayResponse<PayUrlList<PayUrlInfoFull>>> GetPayUrlByIdAsync(string payUrlId)
+        public async Task<AtomicPayResponse<PayUrlList<PayUrlInfoDetails>>> GetPayUrlByIdAsync(string payUrlId)
         {
             VerifyAuthentication();
 
@@ -312,7 +313,7 @@ namespace AtomicPay
 
             var response = await _client.SendAsync(request).ConfigureAwait(false);
 
-            return new AtomicPayResponse<PayUrlList<PayUrlInfoFull>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance });
+            return new AtomicPayResponse<PayUrlList<PayUrlInfoDetails>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance });
         }
 
         /// <summary>
@@ -320,7 +321,7 @@ namespace AtomicPay
         /// </summary>
         /// <param name="newPayUrlRequest">AtomicPayRequest with new PayUrl information</param>
         /// <returns>Full information of the created PayUrl</returns>
-        public async Task<AtomicPayResponse<NewOrUpdatedPayUrlInfo>> CreatePayUrlAsync(AtomicPayRequest<PayUrlCreationOrUpdateInfo> newPayUrlRequest)
+        public async Task<AtomicPayResponse<UpdatedPayUrlInfo>> CreatePayUrlAsync(AtomicPayRequest<PayUrlUpdateInfo> newPayUrlRequest)
         {
             VerifyAuthentication();
 
@@ -333,7 +334,7 @@ namespace AtomicPay
 
             var response = await _client.SendAsync(request).ConfigureAwait(false);
 
-            return new AtomicPayResponse<NewOrUpdatedPayUrlInfo>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance });
+            return new AtomicPayResponse<UpdatedPayUrlInfo>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance });
         }
 
         /// <summary>
@@ -341,7 +342,7 @@ namespace AtomicPay
         /// </summary>
         /// <param name="updateUrlRequest">AtomicPayRequest with updated PayUrl information</param>
         /// <returns>Full information of the updated PayUrl</returns>
-        public async Task<AtomicPayResponse<NewOrUpdatedPayUrlInfo>> UpdatePayUrlAsync(string urlId, AtomicPayRequest<PayUrlCreationOrUpdateInfo> updateUrlRequest)
+        public async Task<AtomicPayResponse<UpdatedPayUrlInfo>> UpdatePayUrlAsync(string urlId, AtomicPayRequest<PayUrlUpdateInfo> updateUrlRequest)
         {
             VerifyAuthentication();
 
@@ -354,7 +355,7 @@ namespace AtomicPay
 
             var response = await _client.SendAsync(request).ConfigureAwait(false);
 
-            return new AtomicPayResponse<NewOrUpdatedPayUrlInfo>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance });
+            return new AtomicPayResponse<UpdatedPayUrlInfo>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance });
         }
 
         /// <summary>
@@ -362,7 +363,7 @@ namespace AtomicPay
         /// </summary>
         /// <param name="urlId">Id of PayUrl to delete</param>
         /// <returns>Success information of deletion request</returns>
-        public async Task<AtomicPayResponse<PayUrlDeletionInfo>> DeletePayUrlAsync(string urlId)
+        public async Task<AtomicPayResponse<PayUrlStatusInfo>> DeletePayUrlAsync(string urlId)
         {
             VerifyAuthentication();
 
@@ -374,7 +375,7 @@ namespace AtomicPay
 
             var response = await _client.SendAsync(request).ConfigureAwait(false);
 
-            return new AtomicPayResponse<PayUrlDeletionInfo>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance });
+            return new AtomicPayResponse<PayUrlStatusInfo>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance });
         }
 
 

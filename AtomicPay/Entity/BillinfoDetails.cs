@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AtomicPay.Entity
 {
-    public class BillinfoFull : BillInfoShort
+    public class BillinfoDetails : BillInfo
     {
         [JsonProperty("bill_days")]
         [JsonConverter(typeof(StringToIntConverter))]

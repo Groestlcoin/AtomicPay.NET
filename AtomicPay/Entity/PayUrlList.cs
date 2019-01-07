@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AtomicPay.Entity
 {
-    public class PayUrlList<TPayUrlEntity> : EntityBase where TPayUrlEntity : PayUrlInfoShort
+    public class PayUrlList<TPayUrlEntity> : EntityBase where TPayUrlEntity : PayUrlInfo
     {
         [JsonProperty("count", NullValueHandling = NullValueHandling.Ignore)]
         public long? Count { get; set; }

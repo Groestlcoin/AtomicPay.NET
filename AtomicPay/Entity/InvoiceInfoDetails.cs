@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AtomicPay.Entity
 {
-    public class InvoiceInfoFull : InvoiceInfoShort
+    public class InvoiceInfoDetails : InvoiceInfo
     {
         [JsonProperty("order_id")]
         [JsonConverter(typeof(StringToLongConverter))]
