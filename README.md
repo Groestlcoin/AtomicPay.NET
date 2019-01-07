@@ -173,7 +173,7 @@ Delete PayUrl (returns [PayUrlStatusInfo](https://github.com/MSiccDev/AtomicPay.
 ```
 using (var client = new AtomicPayClient())
 {
-    var deleted = await _client.DeletePayUrlAsync("x123c34");
+    var deleted = await client.DeletePayUrlAsync("x123c34");
 }
 ```
 
