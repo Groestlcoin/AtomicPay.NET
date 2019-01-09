@@ -11,9 +11,9 @@ Almost all API calls need to be authenticated. The SDK uses a Config singleton c
 await AtomicPay.Config.Current.Init("YOURACCOUNTID", "YOURACCOUNTPUBLICKEY", "YOURACCOUNTPRIVATEKEY");
 ```
 
-This will not only initialize the Config, but also verify that you are passing valid credentials. All API calls asks `Config.Current` for credentials internally and throw an Exception if they are missing. 
+This will not only initialize the Config, but also verify that you are passing valid credentials. All API calls ask `Config.Current` for credentials internally and throw an Exception if they are missing. 
 
-After initializing the Config, your application is already set up to use `AtomicPayClient`. As `AtomicPayClient` implements `IDisposable`, the easiest way to use the client is:
+After initializing `Config.Current`, your application is already set up to use `AtomicPayClient`. As `AtomicPayClient` implements `IDisposable`, the easiest way to use the client is:
 
 ```
 using (var client = new AtomicPayClient())
@@ -173,7 +173,7 @@ Delete PayUrl (returns [PayUrlStatusInfo](https://github.com/MSiccDev/AtomicPay.
 ```
 using (var client = new AtomicPayClient())
 {
-    var deleted = await _client.DeletePayUrlAsync("x123c34");
+    var deleted = await client.DeletePayUrlAsync("x123c34");
 }
 ```
 
