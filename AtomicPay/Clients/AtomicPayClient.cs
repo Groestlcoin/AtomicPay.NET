@@ -246,7 +246,7 @@ namespace AtomicPay
 
             var response = await _client.SendAsync(request).ConfigureAwait(false);
 
-            return new AtomicPayResponse<InvoicesList<InvoiceInfoDetails>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToBillingStatusConverter.Instance, StringToPaymentTypeConverter.Instance });
+            return new AtomicPayResponse<InvoicesList<InvoiceInfoDetails>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToInvoiceStatusConverter.Instance, StringToInvoiceStatusExceptionConverter.Instance, StringToTransactionSpeedConverter.Instance });
         }
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace AtomicPay
 
             var response = await _client.SendAsync(request).ConfigureAwait(false);
 
-            return new AtomicPayResponse<PayUrlList<PayUrlInfo>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance});
+            return new AtomicPayResponse<PayUrlList<PayUrlInfo>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance});
         }
 
         /// <summary>
@@ -313,7 +313,7 @@ namespace AtomicPay
 
             var response = await _client.SendAsync(request).ConfigureAwait(false);
 
-            return new AtomicPayResponse<PayUrlList<PayUrlInfoDetails>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance });
+            return new AtomicPayResponse<PayUrlList<PayUrlInfoDetails>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance, StringToTransactionSpeedConverter.Instance });
         }
 
         /// <summary>
@@ -334,7 +334,7 @@ namespace AtomicPay
 
             var response = await _client.SendAsync(request).ConfigureAwait(false);
 
-            return new AtomicPayResponse<UpdatedPayUrlInfo>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance });
+            return new AtomicPayResponse<UpdatedPayUrlInfo>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance, StringToTransactionSpeedConverter.Instance });
         }
 
         /// <summary>
@@ -355,7 +355,7 @@ namespace AtomicPay
 
             var response = await _client.SendAsync(request).ConfigureAwait(false);
 
-            return new AtomicPayResponse<UpdatedPayUrlInfo>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance });
+            return new AtomicPayResponse<UpdatedPayUrlInfo>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance, StringToTransactionSpeedConverter.Instance });
         }
 
         /// <summary>
@@ -375,7 +375,7 @@ namespace AtomicPay
 
             var response = await _client.SendAsync(request).ConfigureAwait(false);
 
-            return new AtomicPayResponse<PayUrlStatusInfo>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance, StringToPayUrlExpiryConverter.Instance });
+            return new AtomicPayResponse<PayUrlStatusInfo>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToPayUrlStatusConverter.Instance });
         }
 
 
