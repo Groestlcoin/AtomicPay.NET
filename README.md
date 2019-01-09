@@ -27,8 +27,8 @@ If you prefer a static instance however, just create a static member in your cla
 ### Generic response and request types
 The SDK uses generic wrappers around the repsonses from the API. These wrappers are repsonsible for (de-)serialization of the json responses/requests. There are two types:
 
-+ `AtomicPayRequest`
-+ `AtomicPayResponse`
++ [`AtomicPayRequest`](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Model/AtomicPayRequest.cs)
++ [`AtomicPayResponse`](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Model/AtomicPayResponse.cs)
 
 All methods return an `AtomicPayResponse` object that holds a deserialized representation of the specific entity. If an API call returns an error, the response indicates that there is an error and the error message returned from the API. The `AtomicPayRequest` object wraps the request (for API calls that have a body) objects and serializes them on demand.
 
