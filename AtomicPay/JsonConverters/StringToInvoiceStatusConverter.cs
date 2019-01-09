@@ -31,6 +31,12 @@ namespace AtomicPay.JsonConverters
                     return InvoiceStatus.Expired;
                 case "invalid":
                     return InvoiceStatus.Invalid;
+                case "underpaid":
+                    return InvoiceStatus.Underpaid;
+                case "overpaid":
+                    return InvoiceStatus.Overpaid;
+                case "paidafterexpiry":
+                    return InvoiceStatus.PaidAfterExpiry;
                 default:
                     throw new ArgumentOutOfRangeException($"value {value} is not yet implemented");
             }

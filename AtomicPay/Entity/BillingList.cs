@@ -11,6 +11,6 @@ namespace AtomicPay.Entity
         public long Count { get; set; }
 
         [JsonProperty("result", NullValueHandling = NullValueHandling.Ignore)]
-        public List<TBillInfo> BillList { get; set; }
+        public List<TBillInfo> Result { get; set; }
     }
 }

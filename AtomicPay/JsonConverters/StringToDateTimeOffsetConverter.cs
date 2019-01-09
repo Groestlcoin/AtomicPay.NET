@@ -13,6 +13,9 @@ namespace AtomicPay.JsonConverters
         {
             if (reader.TokenType == JsonToken.Null) return null;
             var value = serializer.Deserialize<string>(reader);
+
+            if (string.IsNullOrWhiteSpace(value)) return default(DateTimeOffset);
+
             if (long.TryParse(value, out var unixSecs))
             {
                 return DateTimeOffset.FromUnixTimeSeconds(unixSecs);

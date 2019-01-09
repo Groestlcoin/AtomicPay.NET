@@ -50,7 +50,10 @@ namespace AtomicPay.Entity
         Confirmed,
         Complete,
         Expired,
-        Invalid
+        Invalid,
+        Underpaid,
+        Overpaid,
+        PaidAfterExpiry
     }
 
     public enum InvoiceStatusException
@@ -84,6 +87,8 @@ namespace AtomicPay.Entity
         Paid,
         Confirmed,
         Complete,
+        Expired,
+        Paid_After_Expiry,
         All
     }
 }

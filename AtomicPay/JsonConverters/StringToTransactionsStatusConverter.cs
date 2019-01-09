@@ -8,7 +8,7 @@ namespace AtomicPay.JsonConverters
 {
     public class StringToTransactionsStatusConverter : JsonConverter
     {
-        public override bool CanConvert(Type t) => t == typeof(InvoiceStatus);
+        public override bool CanConvert(Type t) => t == typeof(TransactionStatus);
 
         public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
         {
@@ -28,6 +28,8 @@ namespace AtomicPay.JsonConverters
                     return TransactionStatus.Confirmed;
                 case "complete":
                     return TransactionStatus.Complete;
+                case "expired":
+                    return TransactionStatus.Expired;
                 default:
                     throw new ArgumentOutOfRangeException($"value {value} is not yet implemented");
             }

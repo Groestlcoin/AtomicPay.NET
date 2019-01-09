@@ -125,17 +125,22 @@ namespace AtomicPay
         /// Get a list of recent bills
         /// </summary>
         /// <returns>List of BillInfo (short)</returns>
-        public async Task<AtomicPayResponse<BillingList<BillInfo>>> GetBillsAsync()
+        public async Task<AtomicPayResponse<BillingList<BillInfo>>> GetBillsAsync(DateTimeOffset startDate, DateTimeOffset endDate, BillingStatus billingStatus = BillingStatus.All)
         {
             VerifyAuthentication();
 
             var request = new HttpRequestMessage()
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri(Constants.GetEp_Billing(_apiVersion)),
+                RequestUri = new Uri(Constants.GetEp_Billing(_apiVersion).
+                AddParameterToUrl(Constants.PARAM_DateStart, startDate.ToUnixTimeSeconds()).
+                AddParameterToUrl(Constants.PARAM_DateEnd, endDate.ToUnixTimeSeconds()).
+                AddParameterToUrl(Constants.PARAM_Status, billingStatus.ToString().ToLowerInvariant()))
             };
 
             var response = await _client.SendAsync(request).ConfigureAwait(false);
+
+            var json = await response.Content.ReadAsStringAsync();
 
             return new AtomicPayResponse<BillingList<BillInfo>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToBillingStatusConverter.Instance });
         }
@@ -145,7 +150,7 @@ namespace AtomicPay
         /// </summary>
         /// <param name="billId">desired Bill Id</param>
         /// <returns>Full information about the requested bill</returns>
-        public async Task<AtomicPayResponse<BillingList<BillinfoDetails>>> GetBillByIdAsync(string billId)
+        public async Task<AtomicPayResponse<BillingList<BillinfoDetails>>> GetBillByIdAsync(long billId)
         {
             VerifyAuthentication();
 
@@ -156,6 +161,8 @@ namespace AtomicPay
             };
 
             var response = await _client.SendAsync(request).ConfigureAwait(false);
+
+            var json = await response.Content.ReadAsStringAsync();
 
             return new AtomicPayResponse<BillingList<BillinfoDetails>>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToBillingStatusConverter.Instance, StringToPaymentTypeConverter.Instance });
         }
@@ -429,6 +436,8 @@ namespace AtomicPay
             };   
 
             var response = await _client.SendAsync(request).ConfigureAwait(false);
+
+            var json = await response.Content.ReadAsStringAsync();
 
             return new AtomicPayResponse<TransactionList>(response, false, new List<Newtonsoft.Json.JsonConverter> { StringToTransactionsStatusConverter.Instance });
         }

@@ -15,13 +15,14 @@ namespace AtomicPay.JsonConverters
             if (reader.TokenType == JsonToken.Null) return null;
             var value = serializer.Deserialize<string>(reader);
 
+            if (string.IsNullOrWhiteSpace(value)) return PaymentType.Default;
+
             switch(value.ToLowerInvariant())
             {
                 case "default":
                     return PaymentType.Default;
                 case "atomicpay":
                     return PaymentType.AtomicPay;
-
                 default:
                     throw new ArgumentOutOfRangeException($"value {value} is not yet implemented");
             }
