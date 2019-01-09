@@ -65,7 +65,10 @@ Get all bills (returns [BillingList](https://github.com/MSiccDev/AtomicPay.NET/b
 ```
 using (var client = new AtomicPayClient())
 {
-   var bills = await client.GetBillsAsync();
+   var today = new DateTimeOffset(DateTime.Now);
+   var last60 = new DateTimeOffset(DateTime.Now.Subtract(TimeSpan.FromDays(30)));
+
+   var bills = await _client.GetBillsAsync(last60, today, BillingStatus.All);
 }
 ```
 Get specific bill (returns [BillingList](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/BillingList.cs)<[BillInfoDetails](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/BillinfoDetails.cs)>, single entry):
