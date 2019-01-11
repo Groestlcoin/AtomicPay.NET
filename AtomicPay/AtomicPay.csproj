@@ -5,6 +5,17 @@
     <AssemblyName>AtomicPay.NET</AssemblyName>
     <LangVersion>7.1</LangVersion>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageId>AtomicPay.Net</PackageId>
+    <Authors>MSiccDev Software Development</Authors>
+    <Product>AtomicPay.Net</Product>
+    <Copyright>MSiccDev Software Development</Copyright>
+    <PackageLicenseUrl>https://github.com/MSiccDev/AtomicPay.NET/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageProjectUrl>https://AtomicPay.io</PackageProjectUrl>
+    <PackageReleaseNotes />
+    <RepositoryUrl>https://github.com/MSiccDev/AtomicPay.NET</RepositoryUrl>
+    <PackageTags>crypto, cryptocurrencies, payments, wallet, atomicpay, pay, purchase, api,</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>AtomicPay.NET C# SDK enables you to easily interact with your AtomicPay.io account in your .NET project.</Description>
   </PropertyGroup>
 
   <ItemGroup>
