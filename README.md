@@ -1,7 +1,9 @@
 # AtomicPay.NET
-AtomicPay.NET C# SDK enables you to easily interact with your AtomicPay account in your .NET project.
+AtomicPay.NET SDK enables you to easily interact with your AtomicPay account in your .NET project.
 
-AtomicPay.Net C# SDK is a .NetStandard 2.0 library. This makes it usable in a broad range of project types, like WPF, UWP, Xamarin and more.
+AtomicPay.Net SDK is a .NetStandard 2.0 library. This makes it usable in a broad range of project types, like WPF, UWP, Xamarin and more.
+
+The .NET SDK is also avaialble on [Nuget](https://www.nuget.org/packages/AtomicPay.Net),
 
 ### Getting Started
 
