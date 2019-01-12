@@ -68,7 +68,7 @@ Get all bills (returns [BillingList](https://github.com/MSiccDev/AtomicPay.NET/b
 using (var client = new AtomicPayClient())
 {
    var today = new DateTimeOffset(DateTime.Now);
-   var last60 = new DateTimeOffset(DateTime.Now.Subtract(TimeSpan.FromDays(30)));
+   var last60 = new DateTimeOffset(DateTime.Now.Subtract(TimeSpan.FromDays(60)));
 
    var bills = await _client.GetBillsAsync(last60, today, BillingStatus.All);
 }
