@@ -135,7 +135,7 @@ using (var client = new AtomicPayClient())
 }
 ```
 
-#### PayUrl ([API docs](https://atomicpay.io/api/en#resource-PayUrl))
+#### PayUrl ([API docs](https://atomicpay.io/api/en#resource-PayURL))
 Get all PayUrls, optionally filtered by status (returns [PayUrlList](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/PayUrlList.cs)<[PayUrlInfo](https://github.com/MSiccDev/AtomicPay.NET/blob/master/AtomicPay/Entity/PayUrlInfo.cs)>)
 ```
 using (var client = new AtomicPayClient())
